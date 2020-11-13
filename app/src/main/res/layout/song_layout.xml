@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    android:elevation="2dp"
+    app:cardCornerRadius="12dp"
     android:background="?android:attr/selectableItemBackground"
 
 >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
     <TextView
         android:id="@+id/song_layout_iv_song_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="$9.50"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="@id/song_layout_iv_song_image"
-        app:layout_constraintEnd_toEndOf="@id/song_layout_iv_song_image"
         android:layout_marginTop="8dp"
-        android:textStyle="bold|italic"/>
+        android:textStyle="bold|italic"
+        android:layout_gravity="center"/>
 
     <ImageView
         android:id="@+id/song_layout_iv_song_image"
-        android:layout_width="174dp"
-        android:layout_height="75dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
         tools:layout_editor_absoluteX="93dp"
         tools:layout_editor_absoluteY="16dp"
-        app:layout_constraintTop_toTopOf="@id/song_layout_iv_song_price"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/ic_launcher_background"
+        tools:src="@tools:sample/avatars"
         />
 
     <TextView
@@ -45,9 +47,8 @@
         android:textStyle="bold|italic"
         tools:layout_editor_absoluteX="135dp"
         tools:layout_editor_absoluteY="146dp"
-        app:layout_constraintTop_toBottomOf="@+id/song_layout_iv_song_image"
-        app:layout_constraintStart_toStartOf="@+id/song_layout_iv_song_image"
-        app:layout_constraintEnd_toEndOf="@+id/song_layout_iv_song_image"/>
+        android:layout_gravity="center"
+        />
 
     <TextView
         android:id="@+id/song_layout_song_album"
@@ -58,12 +59,11 @@
         android:textSize="15dp"
         android:padding="5dp"
         android:textStyle="italic"
+        android:layout_gravity="center"
         tools:layout_editor_absoluteX="136dp"
         tools:layout_editor_absoluteY="183dp"
-        app:layout_constraintTop_toBottomOf="@+id/song_layout_song_name"
-        app:layout_constraintStart_toStartOf="@+id/song_layout_song_name"
-        app:layout_constraintEnd_toEndOf="@+id/song_layout_song_name"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="8dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

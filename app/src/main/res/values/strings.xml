@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Assigment2</string>
+    <string name="app_name">Song Streamer</string>
     <string name="rock">Rock</string>
     <string name="classic">Classic</string>
     <string name="pop">Pop</string>
