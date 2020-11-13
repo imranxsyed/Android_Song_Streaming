@@ -17,7 +17,7 @@ const val CLASSIC_TAB = "classic"
 const val POP_TAB = "pop"
 
 
-class  MainActivity : AppCompatActivity(),TabLayout.OnTabSelectedListener, Callback<SongsResponse> {
+class  MainActivity : AppCompatActivity(),TabLayout.OnTabSelectedListener, Callback<SongsResponse>, SongFragment.RefreshListener {
 
 
 
@@ -48,6 +48,7 @@ class  MainActivity : AppCompatActivity(),TabLayout.OnTabSelectedListener, Callb
 
 
 
+
     }
 
     override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -71,6 +72,8 @@ class  MainActivity : AppCompatActivity(),TabLayout.OnTabSelectedListener, Callb
             if (ROCK_TAB.equals(it.toString(),true)){
 
                 if(rockMusicSongs.isEmpty()){
+
+                    Toast.makeText(this, "Data Loading...", Toast.LENGTH_SHORT).show()
                     SongsApi.initRetrofit().getRockSongs().enqueue(this)
                 }
                 else{
@@ -82,6 +85,7 @@ class  MainActivity : AppCompatActivity(),TabLayout.OnTabSelectedListener, Callb
 
 
                 if(classicMusicSongs.isEmpty()){
+                    Toast.makeText(this, "Data Loading...", Toast.LENGTH_SHORT).show()
                     SongsApi.initRetrofit().getClassicSongs().enqueue(this)
                 }
                 else{
@@ -91,6 +95,7 @@ class  MainActivity : AppCompatActivity(),TabLayout.OnTabSelectedListener, Callb
             else if (POP_TAB.equals(it.toString(),true)){
 
                 if(popMusicSongs.isEmpty()){
+                    Toast.makeText(this, "Data Loading...", Toast.LENGTH_SHORT).show()
                     SongsApi.initRetrofit().getPopSongs().enqueue(this)
                 }
                 else{
@@ -99,16 +104,25 @@ class  MainActivity : AppCompatActivity(),TabLayout.OnTabSelectedListener, Callb
             }
         }
 
+
+
     }
 
     override fun onFailure(call: Call<SongsResponse>, t: Throwable) {
+
+        //stop refreshing the swipe
+        songFragment.song_fragment_layout_swipe_refresh.isRefreshing = false
+
         Toast.makeText(this@MainActivity,
             "Request Failure!",
             Toast.LENGTH_SHORT).show()
+
     }
 
     override fun onResponse(call: Call<SongsResponse>, response: Response<SongsResponse>) {
 
+        //stop refreshing the swipe
+        songFragment.song_fragment_layout_swipe_refresh.isRefreshing = false
 
         if(response.isSuccessful){
             response.body()?.let {
@@ -137,6 +151,31 @@ class  MainActivity : AppCompatActivity(),TabLayout.OnTabSelectedListener, Callb
                 "Unable to retrieve data from server!",
                 Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun refreshCalled() {
+
+
+        songFragment.song_fragment_layout_swipe_refresh.isRefreshing = false
+
+        //which tab is selected
+        val selectedTab = song_tabs.getTabAt(song_tabs.selectedTabPosition)
+
+        //clear classic list so it will be loaded from database
+        if (selectedTab?.text?.toString().equals(CLASSIC_TAB, true)){
+            classicMusicSongs = mutableListOf()
+        }
+        //clear pop list so it will be loaded from database
+        else if (selectedTab?.text?.toString().equals(POP_TAB, true)){
+            popMusicSongs = mutableListOf()
+        }
+        //clear classic list so it will be loaded from database
+        else if (selectedTab?.text?.toString().equals(ROCK_TAB,true)){
+            rockMusicSongs = mutableListOf()
+        }
+
+        //call the tab listener
+        onTabSelected(selectedTab)
     }
 
 

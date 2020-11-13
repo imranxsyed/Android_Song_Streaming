@@ -34,7 +34,10 @@ class SongViewHolder(val employeeView:View) : RecyclerView.ViewHolder(employeeVi
         employeeView.setOnClickListener{
 
             if (NetworkClass.isNetworkAvailable()){
-                val intent = Intent(Intent.ACTION_VIEW,Uri.parse(songUrl))
+//                val intent = Intent(Intent.ACTION_VIEW,Uri.parse(songUrl))
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.setDataAndType(Uri.parse(songUrl), "video/mp4")
+
                 try {
                     employeeView.context.startActivity(intent)
                 }catch (exception : Exception){

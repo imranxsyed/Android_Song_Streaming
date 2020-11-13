@@ -1,17 +1,29 @@
 package com.isyed.assigment2
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.isyed.employeemanager.SongAdapter
 import kotlinx.android.synthetic.main.song_fragment_layout.view.*
 
 class SongFragment() : Fragment() {
 
+
+
+    /**listener the HOST must implement to recieve a callback**/
+    interface RefreshListener{
+        fun refreshCalled()
+    }
+
+    var  myListener : RefreshListener? = null
+
     companion object{
+
 
         const val SONG_LIST = "com.isyed.assigment2.SONG_FRAGMENT_SONG_LIST"
 
@@ -26,6 +38,11 @@ class SongFragment() : Fragment() {
                 it.arguments = bundle
             }
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        myListener = context as RefreshListener
     }
 
     override fun onCreateView(
@@ -49,6 +66,10 @@ class SongFragment() : Fragment() {
             val songList : List<Song> = it
             val employeeAdapter = SongAdapter(songList)
             songFragmentLayout.song_fragment_layout_rv_songs.adapter = employeeAdapter
+
+
+            //set the swipe refresh listener
+            songFragmentLayout.song_fragment_layout_swipe_refresh.setOnRefreshListener{ myListener?.refreshCalled()}
 
         }
 
